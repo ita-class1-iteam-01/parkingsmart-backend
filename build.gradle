@@ -13,7 +13,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
-group = 'com.oocl.backend'
+group = 'com.oocl.parkingsmart'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 

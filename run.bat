@@ -4,5 +4,3 @@ if not "%pid%" == "" (
 ) else (
   rem echo Server is not running.
 )
-
-java -jar d:\deploy\parkingsmart-backend-0.0.1-SNAPSHOTT.jar

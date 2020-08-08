@@ -19,8 +19,8 @@ pipeline {
     stage('deploy') {
       steps {
         echo 'deploy'
-        bat "copy build\\libs\\*.jar d:\\deploy\\"
         bat "run.bat"
+        bat 'start /b java -jar build\\libs\\todo-0.0.1-SNAPSHOT.jar'
       }
     }
   }
