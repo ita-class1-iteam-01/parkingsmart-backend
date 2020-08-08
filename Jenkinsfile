@@ -20,7 +20,7 @@ pipeline {
       steps {
         echo 'deploy'
         bat "run.bat"
-        bat 'start /b java -jar build\\libs\\todo-0.0.1-SNAPSHOT.jar'
+        bat 'start /b java -jar build\\libs\\parkingsmart-backend-0.0.1-SNAPSHOTT.jar'
       }
     }
   }
