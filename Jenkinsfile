@@ -4,16 +4,25 @@ pipeline {
     JENKINS_NODE_COOKIE = "donotkillme"
   }
   stages {
+    stage('clone'){
+      steps{
+        echo 'clone begin, clone the code from dev branch'
+        git branch:'dev',url:'https://github.com/carrymaniac/parkingsmart-backend'
+        echo 'clone end'
+      }
+    }
     stage('test') {
       steps {
-        echo 'test'
+        echo 'test begin'
         bat './gradlew test'
+        echo 'test end'
       }
     }
     stage('build') {
       steps {
-        echo 'build'
+        echo 'build begin'
         bat './gradlew build'
+        echo 'build end'
       }
     }
     stage('deploy') {
