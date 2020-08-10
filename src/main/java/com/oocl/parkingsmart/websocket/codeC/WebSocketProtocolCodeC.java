@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oocl.parkingsmart.websocket.protocol.Packet;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@ChannelHandler.Sharable
 public class WebSocketProtocolCodeC extends MessageToMessageCodec<TextWebSocketFrame, Packet> {
 
     static Gson gson = new GsonBuilder().create();
@@ -23,6 +25,8 @@ public class WebSocketProtocolCodeC extends MessageToMessageCodec<TextWebSocketF
 
     @Override
     protected void decode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List<Object> out) throws Exception {
-        out.add(gson.fromJson(msg.text(),Packet.class));
+        String text = msg.text();
+        Packet packet = gson.fromJson(text, Packet.class);
+        out.add(packet);
     }
 }

@@ -5,13 +5,16 @@ import com.oocl.parkingsmart.websocket.codeC.WebSocketProtocolCodeC;
 import com.oocl.parkingsmart.websocket.handler.PageRequestHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class WebSocketChannelInitializer extends ChannelInitializer<NioServerSocketChannel> {
+@Component
+public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketChannel> {
     @Autowired
     WebSocketProtocolCodeC webSocketProtocolCodeC;
     @Autowired
@@ -19,7 +22,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioServerSoc
     @Autowired
     PageRequestHandler pageRequestHandler;
     @Override
-    protected void initChannel(NioServerSocketChannel ch) throws Exception {
+    protected void initChannel(NioSocketChannel ch) throws Exception {
         ch.pipeline().addLast(new HttpServerCodec());
         ch.pipeline().addLast(new ChunkedWriteHandler());
         ch.pipeline().addLast(new HttpObjectAggregator(2048*64));

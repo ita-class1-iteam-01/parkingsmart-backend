@@ -6,6 +6,7 @@ import com.oocl.parkingsmart.websocket.protocol.Packet;
 import com.oocl.parkingsmart.websocket.protocol.data.Data;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageResponse;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import static com.oocl.parkingsmart.websocket.protocol.command.Command.PAGE_REQU
 import static com.oocl.parkingsmart.websocket.protocol.command.Command.PAGE_RESPONSE;
 
 @Component
+@ChannelHandler.Sharable
 public class PacketToDataCodeC extends MessageToMessageCodec<Packet, Data> {
     private final Map<Integer, Class<? extends Data>> packetTypeMap;
     private static Gson gson = new GsonBuilder().create();

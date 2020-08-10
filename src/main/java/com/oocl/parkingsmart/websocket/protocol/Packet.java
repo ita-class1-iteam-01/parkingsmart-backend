@@ -6,6 +6,6 @@ import lombok.Data;
 public class Packet {
 
     private Byte version = 1;
-    private int command;
+    private Integer command;
     private String data;
 }

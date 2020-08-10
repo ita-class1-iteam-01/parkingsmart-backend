@@ -17,8 +17,10 @@ public class NettyServer{
     private final NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     private final NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     private Channel channel;
-    @Autowired
     private WebSocketChannelInitializer initializer;
+    public NettyServer(WebSocketChannelInitializer initializer) {
+        this.initializer = initializer;
+    }
 
     public ChannelFuture bing(InetSocketAddress address){
         ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -36,10 +38,13 @@ public class NettyServer{
                 .childHandler(initializer);
         ChannelFuture channelFuture = serverBootstrap.bind(address).syncUninterruptibly();
         channel = channelFuture.channel();
+//        {"version":1,"command":0,"data":"str"}
+        String str = "{\"latitude\":\"str\",\"longitude\":\"str\",\"startTime\":\"str\",\"endTime\":\"str\"}";
         return channelFuture;
     }
 
     public void destroy(){
+        log.info("[Netty server]server end");
         if(channel==null){
             return;
         }
