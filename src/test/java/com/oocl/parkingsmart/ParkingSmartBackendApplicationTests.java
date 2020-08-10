@@ -3,16 +3,16 @@
  */
 package com.oocl.parkingsmart;
 
+import com.oocl.parkingsmart.websocket.server.NettyServer;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
 public class ParkingSmartBackendApplicationTests {
-
     @Test
     void contextLoads() {
     }
-
 }
