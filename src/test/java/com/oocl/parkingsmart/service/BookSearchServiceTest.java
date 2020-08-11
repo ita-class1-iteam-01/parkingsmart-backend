@@ -20,13 +20,27 @@ public class BookSearchServiceTest {
         //given
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when
-        PageRequest request = new PageRequest("113.574524","22.373737","2020/08","2020/09");
+        PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
         ParkingLot parkingLot = new ParkingLot(1, "123", 10, 10, "123");
         List<ParkingLot> parkingLots = Collections.singletonList(parkingLot);
         BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
         given(mockParkingLotRepository.findNearbyParkingLot(request)).willReturn(parkingLots);
         //then
         List<ParkingLot> nearbyParkingLots = bookSearchService.findNearbyParkingLot(request);
-        assertIterableEquals(parkingLots,nearbyParkingLots);
+        assertIterableEquals(parkingLots, nearbyParkingLots);
     }
+
+    @Test
+    void should_return_noData_when_hit_search_given_times_longitude_latitude() {
+        //given
+        ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
+        //when
+        PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
+        BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
+        given(mockParkingLotRepository.findNearbyParkingLot(request)).willReturn(null);
+        //then
+        List<ParkingLot> nearbyParkingLots = bookSearchService.findNearbyParkingLot(request);
+        assertIterableEquals(null, nearbyParkingLots);
+    }
+
 }
