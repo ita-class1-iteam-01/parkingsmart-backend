@@ -39,7 +39,7 @@ public class BookOrderControllerIntegrationTest {
     void should_add_book_order_when_hit_post_book_order_given_book_order() throws Exception{
         //given
         //when
-        mockMvc.perform(post("/bookOrder")
+        mockMvc.perform(post("/bookOrders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":0,\"userId\":1,\"parkingId\":1,\"parkingType\":\"Lots\",\"reservationStartTime\":1597131056871,\"reservationEndTime\":1597131056871,\"status\":\"Finish\"}"))
         //then
