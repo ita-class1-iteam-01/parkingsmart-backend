@@ -21,8 +21,5 @@ spring:
       idle-timeout: 30000
 server:
   port: 8090
-netty:
-  port: 7397
-  host: 127.0.0.1
 
 
