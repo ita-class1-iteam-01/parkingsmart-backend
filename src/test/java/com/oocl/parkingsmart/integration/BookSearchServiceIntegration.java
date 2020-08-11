@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
 import java.util.List;
 
 @SpringBootTest
@@ -16,10 +17,9 @@ public class BookSearchServiceIntegration {
     private BookSearchService searchService;
 
     @Test
-    void test(){
-//        PageRequest request = new PageRequest("23.146436", "113.323568", "2020/08", "2020/09");
-        PageRequest request = new PageRequest("23.146436", "113.323568", "2020/08", "2020/09");
+    void test() throws ParseException {
+        PageRequest request = new PageRequest("23.146436", "113.323568", "2020-08-14 18:40:22", "2020-08-15 18:40:22");
         List<ParkingLot> nearbyParkingLot = searchService.findNearbyParkingLot(request);
-        System.out.println(nearbyParkingLot);
+
     }
 }

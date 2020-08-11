@@ -5,6 +5,7 @@ import com.oocl.parkingsmart.repository.ParkingLotRepositoty;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.mock;
 
 public class BookSearchServiceTest {
     @Test
-    void should_return_parkingLotList_when_hit_search_given_times_longitude_latitude() {
+    void should_return_parkingLotList_when_hit_search_given_times_longitude_latitude() throws ParseException {
         //given
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when
@@ -30,7 +31,7 @@ public class BookSearchServiceTest {
     }
 
     @Test
-    void should_return_noData_when_hit_search_given_times_longitude_latitude() {
+    void should_return_noData_when_hit_search_given_times_longitude_latitude() throws ParseException {
         //given
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when

@@ -17,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,6 +40,7 @@ public class BookOrderControllerIntegrationTest {
         repository.deleteAll();
     }
     @Test
+    @Transactional
     void should_add_book_order_when_hit_post_book_order_given_book_order() throws Exception{
         //given
         //when
