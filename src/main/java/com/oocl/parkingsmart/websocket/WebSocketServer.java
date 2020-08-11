@@ -2,11 +2,14 @@ package com.oocl.parkingsmart.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oocl.parkingsmart.model.ParkingLot;
+import com.oocl.parkingsmart.service.BookSearchService;
 import com.oocl.parkingsmart.websocket.protocol.Packet;
 import com.oocl.parkingsmart.websocket.protocol.data.Data;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
@@ -17,8 +20,10 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.oocl.parkingsmart.websocket.protocol.command.Command.PAGE_REQUEST;
@@ -32,6 +37,8 @@ public class WebSocketServer {
     private final Map<Integer, Class<? extends Data>> packetTypeMap;
     private static Gson gson = new GsonBuilder().create();
     private Session session;
+    @Autowired
+    BookSearchService bookSearchService;
     public WebSocketServer() {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(PAGE_REQUEST, PageRequest.class);
@@ -44,7 +51,7 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) throws IOException {
+    public void onMessage(String message, Session session) throws IOException, ParseException {
         Packet packet = gson.fromJson(message, Packet.class);
         Class<? extends Data> dataType = packetTypeMap.get(packet.getCommand());
         Data data = gson.fromJson(packet.getData(),dataType);
@@ -55,21 +62,17 @@ public class WebSocketServer {
         this.sendMessage(gson.toJson(backPacket));
     }
 
-    private Packet handlerPageRequest(PageRequest pageRequest) {
-        //拿到数据
-        String startTime = pageRequest.getStartTime();
-        String endTime = pageRequest.getEndTime();
-        String latitude = pageRequest.getLatitude();
-        String longitude = pageRequest.getLongitude();
-        //todo call method to get data
-        Page<String> page = new PageImpl<>(Arrays.asList("test1","test2"));
+    private Packet handlerPageRequest(PageRequest pageRequest) throws ParseException {
+        List<ParkingLot> nearbyParkingLot = bookSearchService.findNearbyParkingLot(pageRequest);
+        bookSearchService.calculationMargin(pageRequest,nearbyParkingLot);
         PageResponse response = new PageResponse();
-        response.setPage(page);
+        response.setPage(nearbyParkingLot);
         Packet packet = new Packet();
         packet.setData(gson.toJson(response));
         packet.setCommand(PAGE_RESPONSE);
         return packet;
     }
+
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
     }

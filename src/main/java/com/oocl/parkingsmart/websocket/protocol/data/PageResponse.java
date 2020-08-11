@@ -1,9 +1,10 @@
 package com.oocl.parkingsmart.websocket.protocol.data;
 
+import com.oocl.parkingsmart.model.ParkingLot;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 
 @lombok.Data
 public class PageResponse implements Data {
-    private Page page;
+    private List<ParkingLot> page;
 }
