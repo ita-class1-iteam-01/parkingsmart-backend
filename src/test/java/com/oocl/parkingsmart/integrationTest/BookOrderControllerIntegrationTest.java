@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
