@@ -32,6 +32,7 @@ public class NettyServer{
                         log.info("[Netty server] server start");
                     }
                 })
+                //指定TCP队列大小
                 .option(ChannelOption.SO_BACKLOG,1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)

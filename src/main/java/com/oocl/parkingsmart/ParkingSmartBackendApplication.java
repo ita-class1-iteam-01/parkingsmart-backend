@@ -26,6 +26,7 @@ public class ParkingSmartBackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         InetSocketAddress address = new InetSocketAddress(host,port);
         ChannelFuture future = nettyServer.bing(address);
+        //是在jvm中增加一个关闭的钩子，当jvm关闭的时候，会执行系统中已经设置的所有通过方法addShutdownHook添加的钩子
         Runtime.getRuntime().addShutdownHook(new Thread(()->nettyServer.destroy()));
         //closeFuture()是开启了一个子线程server channel的监听器
         //负责监听channel是否关闭的状态，syncUninterruptibly()让主线程同步等待子线程结果。

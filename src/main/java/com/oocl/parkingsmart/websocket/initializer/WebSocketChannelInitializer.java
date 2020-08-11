@@ -23,9 +23,13 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
     PageRequestHandler pageRequestHandler;
     @Override
     protected void initChannel(NioSocketChannel ch) throws Exception {
+        //netty针对http编解码的处理类，但是这些只能处理像http get的请求,也就是数据带在url问号后面的http请求
         ch.pipeline().addLast(new HttpServerCodec());
+        //大文件处理
         ch.pipeline().addLast(new ChunkedWriteHandler());
+        //HttpMessage和HttpContent聚合成为一个FullHttpRquest或者FullHttpRsponse
         ch.pipeline().addLast(new HttpObjectAggregator(2048*64));
+        // 处理除了TextWebSocketFrame以外的其他帧
         ch.pipeline().addLast(new WebSocketServerProtocolHandler("/ws"));
         //CodeC
         ch.pipeline().addLast(webSocketProtocolCodeC);
