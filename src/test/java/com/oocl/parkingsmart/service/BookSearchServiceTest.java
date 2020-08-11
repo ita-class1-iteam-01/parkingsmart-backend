@@ -5,7 +5,6 @@ import com.oocl.parkingsmart.repository.ParkingLotRepositoty;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class BookSearchServiceTest {
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when
         PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
-        ParkingLot parkingLot = new ParkingLot(1, "123", 10, 10, "123");
+        ParkingLot parkingLot = new ParkingLot(1, "123", 10, 10d, "123");
         List<ParkingLot> parkingLots = Collections.singletonList(parkingLot);
         BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
-        given(mockParkingLotRepository.findNearbyParkingLot(request)).willReturn(parkingLots);
+        given(mockParkingLotRepository.findAllNearbyParkingLot(Double.parseDouble(request.getLongitude()),Double.parseDouble(request.getLatitude()))).willReturn(parkingLots);
         //then
         List<ParkingLot> nearbyParkingLots = bookSearchService.findNearbyParkingLot(request);
         assertIterableEquals(parkingLots, nearbyParkingLots);
@@ -37,10 +36,11 @@ public class BookSearchServiceTest {
         //when
         PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
         BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
-        given(mockParkingLotRepository.findNearbyParkingLot(request)).willReturn(null);
+        given(mockParkingLotRepository.findAllNearbyParkingLot(Double.parseDouble(request.getLongitude()),Double.parseDouble(request.getLatitude()))).willReturn(null);
         //then
         List<ParkingLot> nearbyParkingLots = bookSearchService.findNearbyParkingLot(request);
         assertIterableEquals(null, nearbyParkingLots);
     }
+
 
 }
