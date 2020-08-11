@@ -18,7 +18,7 @@ public class RentOrderServiceImpl implements RentOrderService {
 
     @Override
     public List<RentOrder> getAll() {
-        return null;
+        return rentOrderRepository.findAll();
     }
 
 }
