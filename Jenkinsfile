@@ -4,13 +4,6 @@ pipeline {
     JENKINS_NODE_COOKIE = "donotkillme"
   }
   stages {
-    stage('clone'){
-      steps{
-        echo 'clone begin, clone the code from dev branch'
-        git branch:'dev',url:'https://github.com/carrymaniac/parkingsmart-backend'
-        echo 'clone end'
-      }
-    }
     stage('test') {
       steps {
         echo 'test begin'
