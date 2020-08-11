@@ -7,6 +7,7 @@ pipeline {
     stage('test') {
       steps {
         echo 'test begin'
+        bat "run.bat"
         bat './gradlew test'
         echo 'test end'
       }
