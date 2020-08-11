@@ -21,4 +21,5 @@ public class BookOrder {
     private Date reservationStartTime;
     private Date reservationEndTime;
     private String status;
+    private String carPort;
 }

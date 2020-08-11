@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 @RestController
 @RequestMapping("/bookOrders")
 @CrossOrigin
@@ -26,8 +29,10 @@ public class BookOrderController {
     ResultVo<CarSpace> addBookOrder(@RequestBody BookOrder bookOrder){
         ResultVo<CarSpace> resultVo = new ResultVo<>();
         bookOrder.setStatus(BookOrderEnum.BOOKED.getValue());
+        List<CarSpace> unUsedCarSpaces = carSpaceService.getUnUsedCarSpaces(bookOrder.getParkingId(), bookOrder.getReservationStartTime(), bookOrder.getReservationEndTime());
+        CarSpace carSpace = unUsedCarSpaces.get(0);
+        bookOrder.setCarPort(carSpace.getCarPort());
         if(bookOrderService.create(bookOrder)!=null){
-            CarSpace carSpace = carSpaceService.getOneCarSpace(bookOrder.getParkingId());
             resultVo.setCode(0);
             resultVo.setMsg("booking success");
             resultVo.setData(carSpace);

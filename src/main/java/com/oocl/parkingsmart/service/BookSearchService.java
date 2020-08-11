@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,16 @@ public class BookSearchService {
             parkingLot.setSize(parkingLot.getSize() - count);
         }
     }
-
-
+    public List<BookOrder> getBookOrdersUsedByStartTimeAndEndTimeAndParkingLotId(Integer parkingLotId,Date startTime,Date endTime){
+        List<BookOrder> bookOrders = bookOrderRepository.findByStatusNotFINISHED(parkingLotId);
+        List<BookOrder> result = new ArrayList<>();
+        for (BookOrder order : bookOrders) {
+            int compareToFirst = order.getReservationStartTime().compareTo(endTime);
+            int compareToSecond = order.getReservationEndTime().compareTo(startTime);
+            if(compareToFirst <= 0 && compareToSecond >= 0){
+                result.add(order);
+            }
+        }
+        return result;
+    }
 }
