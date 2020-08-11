@@ -49,7 +49,6 @@ public class BookSearchService {
                     count++;
                 }
             }
-            System.out.println(count);
             parkingLot.setSize(parkingLot.getSize() - count);
         }
     }

@@ -20,7 +20,7 @@ public class BookSearchServiceTest {
         //given
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when
-        PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
+        PageRequest request = new PageRequest("113.574524", "22.373737", "2020-08-14 18:40:22", "2020-08-14 18:40:22");
         ParkingLot parkingLot = new ParkingLot(1, "123", 10, 10d, "123");
         List<ParkingLot> parkingLots = Collections.singletonList(parkingLot);
         BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
@@ -35,7 +35,7 @@ public class BookSearchServiceTest {
         //given
         ParkingLotRepositoty mockParkingLotRepository = mock(ParkingLotRepositoty.class);
         //when
-        PageRequest request = new PageRequest("113.574524", "22.373737", "2020/08", "2020/09");
+        PageRequest request = new PageRequest("113.574524", "22.373737", "2020-08-14 18:40:22", "2020-08-14 18:40:22");
         BookSearchService bookSearchService = new BookSearchService(mockParkingLotRepository);
         given(mockParkingLotRepository.findAllNearbyParkingLot(Double.parseDouble(request.getLongitude()),Double.parseDouble(request.getLatitude()))).willReturn(null);
         //then

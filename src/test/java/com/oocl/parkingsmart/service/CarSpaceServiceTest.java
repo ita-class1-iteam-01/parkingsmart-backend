@@ -13,13 +13,4 @@ public class CarSpaceServiceTest {
 
     @Autowired
     CarSpaceService carSpaceService;
-    @Test
-    void should_return_car_space_when_get_car_space_given_parking_lot_id() {
-        //given
-        Integer parkingLotId = 1;
-        //when
-        CarSpace oneCarSpace = carSpaceService.getOneCarSpace(parkingLotId);
-        //then
-        assertNotNull(oneCarSpace);
-    }
 }
