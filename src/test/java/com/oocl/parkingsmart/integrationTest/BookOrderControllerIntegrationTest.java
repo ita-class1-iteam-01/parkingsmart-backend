@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -33,11 +34,8 @@ public class BookOrderControllerIntegrationTest {
     @Autowired
     BookOrderRepository repository;
 
-    @AfterEach
-    public void afterEach(){
-        repository.deleteAll();
-    }
     @Test
+    @Transactional
     void should_add_book_order_when_hit_post_book_order_given_book_order() throws Exception{
         //given
         //when

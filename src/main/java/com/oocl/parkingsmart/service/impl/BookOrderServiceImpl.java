@@ -1,11 +1,13 @@
-package com.oocl.parkingsmart.service;
+package com.oocl.parkingsmart.service.impl;
 
 import com.oocl.parkingsmart.entity.BookOrder;
 import com.oocl.parkingsmart.repository.BookOrderRepository;
+import com.oocl.parkingsmart.service.BookOrderService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class BookOrderServiceImpl implements BookOrderService{
+@Service
+public class BookOrderServiceImpl implements BookOrderService {
     private final BookOrderRepository bookOrderRepository;
 
     public BookOrderServiceImpl(BookOrderRepository bookOrderRepository) {
