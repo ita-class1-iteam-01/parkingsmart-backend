@@ -5,6 +5,7 @@ import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.RentOrderService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RentOrderServiceImpl implements RentOrderService {
 
+    @Autowired
     private RentOrderRepository rentOrderRepository;
 
     @Override
