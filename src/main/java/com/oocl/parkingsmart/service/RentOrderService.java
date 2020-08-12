@@ -8,4 +8,6 @@ public interface RentOrderService{
 
     List<RentOrder> getAll();
 
+    RentOrder create(RentOrder rentOrder);
+
 }
