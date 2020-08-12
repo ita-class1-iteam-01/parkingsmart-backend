@@ -21,11 +21,9 @@ public class BookSearchService {
     @Autowired
     private BookOrderRepository bookOrderRepository;
 
-    public BookSearchService() {
-    }
-
-    public BookSearchService(ParkingLotRepositoty parkingLotRepository) {
+    public BookSearchService(ParkingLotRepositoty parkingLotRepository, BookOrderRepository bookOrderRepository) {
         this.parkingLotRepositoty = parkingLotRepository;
+        this.bookOrderRepository = bookOrderRepository;
     }
 
     public List<ParkingLot> findNearbyParkingLot(PageRequest pageRequest) throws ParseException {
@@ -44,6 +42,7 @@ public class BookSearchService {
             List<BookOrder> bookOrders = bookOrderRepository.findByStatusNotFINISHED(parkingLot.getId());
             Integer count = 0;
             for (BookOrder order : bookOrders) {
+                if(order.getReservationStartTime()==null)return;
                 int compareToFirst = order.getReservationStartTime().compareTo(endTime);
                 int compareToSecond = order.getReservationEndTime().compareTo(startTime);
                 if (compareToFirst <= 0 && compareToSecond >= 0) {
