@@ -1,5 +1,6 @@
 package com.oocl.parkingsmart.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,11 +15,16 @@ public class RentOrder {
     private Integer id;
     private Integer personalCarSpaceId;
     private Integer userId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date rentStartDate;
     private Integer rentalMonths;
     private Double price;
     private String status;
     private String contactPerson;
     private String contactNumber;
+    private String address;
+    private Double longitude;
+    private Double latitude;
 
 }
