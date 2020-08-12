@@ -92,4 +92,17 @@ class BookOrderServiceTest {
         assertEquals(bookOrder.getParkingId(), order.getParkingId());
         assertEquals(3200, bookOrder.getTotalPrice());
     }
+
+    @Test
+    void should_return_book_orders_when_get_all_given_no_parameter() {
+        //given
+        List<BookOrder> returnedOrders = Arrays.asList(new BookOrder(), new BookOrder(), new BookOrder());
+
+        //when
+        List<BookOrder> bookOrders = bookOrderService.getAll();
+        when(bookOrderRepository.findAll()).thenReturn(returnedOrders);
+
+        //then
+        assertNotNull(bookOrders);
+    }
 }

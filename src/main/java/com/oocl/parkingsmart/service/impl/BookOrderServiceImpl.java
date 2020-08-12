@@ -5,11 +5,13 @@ import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.repository.BookOrderRepository;
 import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.BookOrderService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,11 @@ public class BookOrderServiceImpl implements BookOrderService {
     @Override
     public BookOrder create(BookOrder bookOrder) {
         return bookOrderRepository.save(bookOrder);
+    }
+
+    @Override
+    public List<BookOrder> getAll() {
+        return bookOrderRepository.findAll();
     }
 
     @Override

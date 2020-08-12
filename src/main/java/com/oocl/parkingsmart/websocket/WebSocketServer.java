@@ -2,6 +2,7 @@ package com.oocl.parkingsmart.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oocl.parkingsmart.componment.MyApplicationContextAware;
 import com.oocl.parkingsmart.model.ParkingLot;
 import com.oocl.parkingsmart.service.BookSearchService;
 import com.oocl.parkingsmart.websocket.protocol.Packet;
@@ -10,11 +11,7 @@ import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
-
-import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -37,8 +34,9 @@ public class WebSocketServer {
     private final Map<Integer, Class<? extends Data>> packetTypeMap;
     private static Gson gson = new GsonBuilder().create();
     private Session session;
-    @Autowired
-    BookSearchService bookSearchService;
+    private  BookSearchService bookSearchService = (BookSearchService)MyApplicationContextAware.getApplicationContext().getBean("BookSearchService");
+
+
     public WebSocketServer() {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(PAGE_REQUEST, PageRequest.class);
@@ -52,6 +50,7 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, ParseException {
+        log.info("message: {}",message);
         Packet packet = gson.fromJson(message, Packet.class);
         Class<? extends Data> dataType = packetTypeMap.get(packet.getCommand());
         Data data = gson.fromJson(packet.getData(),dataType);
@@ -64,7 +63,6 @@ public class WebSocketServer {
 
     private Packet handlerPageRequest(PageRequest pageRequest) throws ParseException {
         List<ParkingLot> nearbyParkingLot = bookSearchService.findNearbyParkingLot(pageRequest);
-        bookSearchService.calculationMargin(pageRequest,nearbyParkingLot);
         PageResponse response = new PageResponse();
         response.setPage(nearbyParkingLot);
         Packet packet = new Packet();

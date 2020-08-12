@@ -24,5 +24,4 @@ public class BookOrder {
     private String carPort;
     private Double totalPrice;
     private String address;
-
 }

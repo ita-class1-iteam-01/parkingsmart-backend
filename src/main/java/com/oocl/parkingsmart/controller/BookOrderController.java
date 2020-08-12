@@ -26,6 +26,11 @@ public class BookOrderController {
     @Autowired
     CarSpaceService carSpaceService;
 
+    @GetMapping
+    public ResultVo getAll(){
+        return ResultVoUtils.success("success",bookOrderService.getAll());
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     ResultVo<CarSpace> addBookOrder(@RequestBody BookOrder bookOrder){
