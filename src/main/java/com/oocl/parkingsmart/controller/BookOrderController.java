@@ -3,8 +3,10 @@ package com.oocl.parkingsmart.controller;
 import com.oocl.parkingsmart.Enum.BookOrderEnum;
 import com.oocl.parkingsmart.entity.BookOrder;
 import com.oocl.parkingsmart.entity.CarSpace;
+import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.service.BookOrderService;
 import com.oocl.parkingsmart.service.CarSpaceService;
+import com.oocl.parkingsmart.utils.ResultVoUtils;
 import com.oocl.parkingsmart.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,4 +49,15 @@ public class BookOrderController {
         }
         return resultVo;
     }
+
+    @PostMapping("/personal/{rentOrderId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    ResultVo addPersonalBookOrder(@RequestBody BookOrder bookOrder,@PathVariable("rentOrderId") Integer rentOrderId){
+        BookOrder returnedOrder = bookOrderService.createPersonalOrder(bookOrder, rentOrderId);
+        if(returnedOrder != null){
+            return ResultVoUtils.success("success",null);
+        }
+        return ResultVoUtils.fail("book fail");
+    }
+
 }

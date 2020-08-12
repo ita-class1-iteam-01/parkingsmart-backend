@@ -6,22 +6,16 @@ import com.oocl.parkingsmart.repository.BookOrderRepository;
 import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.BookOrderService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Service
 public class BookOrderServiceImpl implements BookOrderService {
-    private BookOrderRepository bookOrderRepository;
-    private RentOrderRepository rentOrderRepository;
-
-    public BookOrderServiceImpl(BookOrderRepository bookOrderRepository) {
-        this.bookOrderRepository = bookOrderRepository;
-    }
-
-    public BookOrderServiceImpl(RentOrderRepository rentOrderRepository) {
-        this.rentOrderRepository = rentOrderRepository;
-    }
+    private final BookOrderRepository bookOrderRepository;
+    private final RentOrderRepository rentOrderRepository;
 
     public BookOrderServiceImpl(BookOrderRepository bookOrderRepository, RentOrderRepository rentOrderRepository) {
         this.bookOrderRepository = bookOrderRepository;
@@ -34,16 +28,18 @@ public class BookOrderServiceImpl implements BookOrderService {
     }
 
     @Override
-    public BookOrder createPersonalOrder(BookOrder order, RentOrder rentOrder) {
-        if(rentOrder.getStatus().equals("published")){
-            long months = ChronoUnit.MONTHS.between(rentOrder.getRentStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),rentOrder.getRentEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())+1;
-            order.setTotalPrice(months*rentOrder.getPrice());
-            BookOrder returnedOrder = bookOrderRepository.save(order);
-            System.out.println(returnedOrder.getTotalPrice());
-            rentOrder.setStatus("finished");
-            rentOrderRepository.save(rentOrder);
-            return returnedOrder;
+    @Transactional
+    public BookOrder createPersonalOrder(BookOrder order, Integer rentOrderId) {
+        Optional<RentOrder> rentOrder = rentOrderRepository.findById(rentOrderId);
+        if(!rentOrder.isPresent()||rentOrder.get().getStatus().equals("booked")) {
+            return null;
         }
-        return null;
+        long months = ChronoUnit.MONTHS.between(rentOrder.get().getRentStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),rentOrder.get().getRentEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())+1;
+        order.setTotalPrice(months*rentOrder.get().getPrice());
+        order.setStatus("booked");
+        BookOrder returnOrder = bookOrderRepository.save(order);
+        rentOrder.get().setStatus("booked");
+        rentOrderRepository.save(rentOrder.get());
+        return returnOrder;
     }
 }
