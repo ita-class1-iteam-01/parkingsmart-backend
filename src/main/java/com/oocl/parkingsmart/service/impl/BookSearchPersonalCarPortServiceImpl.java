@@ -5,6 +5,7 @@ import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.BookSearchPersonalCarPortService;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalCarPortService {
     private final RentOrderRepository rentOrderRepository;
 
