@@ -71,4 +71,18 @@ public class RentOrderControllerIntegrationTest {
         //then
                 .andExpect(jsonPath("$.code").value(0));
     }
+
+    @Test
+    void should_return_rent_order_when_get_one_given_id() throws Exception {
+        //given
+        Integer id = 4;
+        //when
+        //then
+        mockMvc.perform(get("/rentOrders/"+id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.msg").value("success"))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+
+    }
 }
