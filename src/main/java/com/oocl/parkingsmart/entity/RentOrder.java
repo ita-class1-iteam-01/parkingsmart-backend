@@ -13,12 +13,13 @@ public class RentOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer personalCarSpaceId;
+    private String personCarport;
     private Integer userId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date rentStartDate;
-    private Integer rentalMonths;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date rentEndDate;
     private Double price;
     private String status;
     private String contactPerson;
