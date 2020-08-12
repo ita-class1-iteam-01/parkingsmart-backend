@@ -10,10 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -86,7 +83,8 @@ class BookOrderServiceTest {
 
         //when
         when(bookOrderRepository.save(order)).thenReturn(order);
-        BookOrder bookOrder = bookOrderService.createPersonalOrder(order, rentOrder);
+        when(rentOrderRepository.findById(rentOrder.getId())).thenReturn(Optional.of(rentOrder));
+        BookOrder bookOrder = bookOrderService.createPersonalOrder(order, rentOrder.getId());
 
         //then
         assertNotNull(bookOrder);
