@@ -1,6 +1,7 @@
 package com.oocl.parkingsmart.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
 public class RentOrder {
 
     @Id
