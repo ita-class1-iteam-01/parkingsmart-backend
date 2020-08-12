@@ -23,4 +23,9 @@ public class RentOrderServiceImpl implements RentOrderService {
         return rentOrderRepository.findAll();
     }
 
+    @Override
+    public RentOrder create(RentOrder rentOrder) {
+        return rentOrderRepository.save(rentOrder);
+    }
+
 }

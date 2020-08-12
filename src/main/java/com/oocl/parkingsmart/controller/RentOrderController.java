@@ -1,16 +1,13 @@
 package com.oocl.parkingsmart.controller;
 
+import com.oocl.parkingsmart.Enum.RentOrderEnum;
 import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.service.RentOrderService;
 import com.oocl.parkingsmart.utils.ResultVoUtils;
 import com.oocl.parkingsmart.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rentOrders")
@@ -21,8 +18,19 @@ public class RentOrderController {
     RentOrderService rentOrderService;
 
     @GetMapping
-    public ResultVo<List<RentOrder>> getAll(){
+    public ResultVo getAll(){
         return ResultVoUtils.success("success",rentOrderService.getAll());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResultVo createOrder(@RequestBody RentOrder rentOrder){
+        rentOrder.setStatus(RentOrderEnum.PUBLISHED.getValue());
+        if(rentOrderService.create(rentOrder)!=null){
+            return ResultVoUtils.success("Renting success",null);
+        }else {
+            return ResultVoUtils.fail("Renting fail");
+        }
     }
 
 }

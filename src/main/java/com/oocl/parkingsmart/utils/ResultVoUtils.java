@@ -12,4 +12,11 @@ public class ResultVoUtils {
         return resultVo;
     }
 
+    public static ResultVo fail(String msg){
+        ResultVo resultVo = new ResultVo();
+        resultVo.setCode(1);
+        resultVo.setMsg(msg);
+        return resultVo;
+    }
+
 }
