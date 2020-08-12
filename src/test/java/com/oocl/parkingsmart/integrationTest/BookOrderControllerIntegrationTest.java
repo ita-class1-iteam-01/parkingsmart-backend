@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,4 +51,19 @@ public class BookOrderControllerIntegrationTest {
         List<BookOrder> all = repository.findAll();
         assertTrue(all.size()>0);
     }
+
+    @Test
+    void should_return_book_orders_when_get_all_given_no_parameter() throws Exception {
+        //given
+
+        //when
+        //then
+        mockMvc.perform(get("/bookOrders"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.msg").value("success"))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+
+    }
+
 }

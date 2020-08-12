@@ -1,16 +1,14 @@
 package com.oocl.parkingsmart.service;
 
 import com.oocl.parkingsmart.entity.BookOrder;
+import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.repository.BookOrderRepository;
 import com.oocl.parkingsmart.service.impl.BookOrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,5 +50,18 @@ class BookOrderServiceTest {
         assertNotNull(bookOrder);
         assertNotNull(bookOrder.getId());
         assertEquals(bookOrder.getParkingId(),order.getParkingId());
+    }
+
+    @Test
+    void should_return_book_orders_when_get_all_given_no_parameter() {
+        //given
+        List<BookOrder> returnedOrders = Arrays.asList(new BookOrder(), new BookOrder(), new BookOrder());
+
+        //when
+        List<BookOrder> bookOrders = bookOrderService.getAll();
+        when(bookOrderRepository.findAll()).thenReturn(returnedOrders);
+
+        //then
+        assertNotNull(bookOrders);
     }
 }

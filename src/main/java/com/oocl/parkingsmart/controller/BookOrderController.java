@@ -5,6 +5,7 @@ import com.oocl.parkingsmart.entity.BookOrder;
 import com.oocl.parkingsmart.entity.CarSpace;
 import com.oocl.parkingsmart.service.BookOrderService;
 import com.oocl.parkingsmart.service.CarSpaceService;
+import com.oocl.parkingsmart.utils.ResultVoUtils;
 import com.oocl.parkingsmart.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public class BookOrderController {
 
     @Autowired
     CarSpaceService carSpaceService;
+
+    @GetMapping
+    public ResultVo getAll(){
+        return ResultVoUtils.success("success",bookOrderService.getAll());
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

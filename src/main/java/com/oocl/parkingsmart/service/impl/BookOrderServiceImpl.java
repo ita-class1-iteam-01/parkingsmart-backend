@@ -6,6 +6,8 @@ import com.oocl.parkingsmart.service.BookOrderService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookOrderServiceImpl implements BookOrderService {
     private final BookOrderRepository bookOrderRepository;
@@ -17,5 +19,10 @@ public class BookOrderServiceImpl implements BookOrderService {
     @Override
     public BookOrder create(BookOrder bookOrder) {
         return bookOrderRepository.save(bookOrder);
+    }
+
+    @Override
+    public List<BookOrder> getAll() {
+        return bookOrderRepository.findAll();
     }
 }
