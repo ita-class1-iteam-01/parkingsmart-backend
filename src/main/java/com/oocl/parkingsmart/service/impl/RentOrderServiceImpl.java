@@ -31,6 +31,6 @@ public class RentOrderServiceImpl implements RentOrderService {
 
     @Override
     public RentOrder findById(Integer id) {
-        return null;
+        return rentOrderRepository.findById(id).orElse(null);
     }
 }
