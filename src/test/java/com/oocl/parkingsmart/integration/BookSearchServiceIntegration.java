@@ -18,7 +18,7 @@ public class BookSearchServiceIntegration {
 
     @Test
     void test() throws ParseException {
-        PageRequest request = new PageRequest("23.146436", "113.323568", "2020-08-14 18:40:22", "2020-08-15 18:40:22");
+        PageRequest request = new PageRequest("23.150597", "113.324981", "2020-08-12 16:00:22", "2020-08-31 23:00:22");
         List<ParkingLot> nearbyParkingLot = searchService.findNearbyParkingLot(request);
 
     }

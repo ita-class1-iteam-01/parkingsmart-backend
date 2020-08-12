@@ -63,7 +63,6 @@ public class WebSocketServer {
 
     private Packet handlerPageRequest(PageRequest pageRequest) throws ParseException {
         List<ParkingLot> nearbyParkingLot = bookSearchService.findNearbyParkingLot(pageRequest);
-        bookSearchService.calculationMargin(pageRequest,nearbyParkingLot);
         PageResponse response = new PageResponse();
         response.setPage(nearbyParkingLot);
         Packet packet = new Packet();
