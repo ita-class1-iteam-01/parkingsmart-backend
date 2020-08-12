@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -28,4 +29,8 @@ public class RentOrderServiceImpl implements RentOrderService {
         return rentOrderRepository.save(rentOrder);
     }
 
+    @Override
+    public RentOrder findById(Integer id) {
+        return null;
+    }
 }
