@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -84,26 +85,5 @@ public class RentOrderServiceTest {
         //then
         assertNotNull(returnedOrder);
         assertEquals(order.getId(),returnedOrder.getId());
-    }
-
-    @Test
-    void should_return_rent_order_when_get_order_given_wrong() {
-        //given
-        RentOrder order = new RentOrder();
-        order.setId(4);
-        order.setAddress("广东省珠海市唐家湾惠景畅园");
-        order.setLatitude(1.1);
-        order.setLongitude(2.1);
-        order.setContactNumber("13531915996");
-        order.setContactPerson("henry");
-        order.setPersonCarport("CW-001");
-        order.setPrice(200.00);
-
-        //when
-        when(rentOrderRepository.findById(order.getId())).thenReturn(Optional.of(order));
-        RentOrder returnedOrder = rentOrderService.findById(999);
-
-        //then
-        assertNull(returnedOrder);
     }
 }
