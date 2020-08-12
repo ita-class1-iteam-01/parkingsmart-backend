@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RentOrderRepository extends JpaRepository<RentOrder,Integer> {
-    List<RentOrder> findAllNearbyPersonalCarPort(double parseDouble, double parseDouble1);
+    List<RentOrder> findAllNearbyPersonalCarPort(Double longitude, Double latitude);
 }
