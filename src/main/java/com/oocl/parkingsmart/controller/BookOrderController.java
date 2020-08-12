@@ -30,6 +30,11 @@ public class BookOrderController {
         ResultVo<CarSpace> resultVo = new ResultVo<>();
         bookOrder.setStatus(BookOrderEnum.BOOKED.getValue());
         List<CarSpace> unUsedCarSpaces = carSpaceService.getUnUsedCarSpaces(bookOrder.getParkingId(), bookOrder.getReservationStartTime(), bookOrder.getReservationEndTime());
+        if(unUsedCarSpaces.isEmpty()){
+            resultVo.setCode(1);
+            resultVo.setMsg("booking fail");
+            return resultVo;
+        }
         CarSpace carSpace = unUsedCarSpaces.get(0);
         bookOrder.setCarPort(carSpace.getCarPort());
         if(bookOrderService.create(bookOrder)!=null){

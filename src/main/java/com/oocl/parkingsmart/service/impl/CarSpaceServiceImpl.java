@@ -33,7 +33,7 @@ public class CarSpaceServiceImpl implements CarSpaceService {
         List<BookOrder> bookOrders = bookSearchService.getBookOrdersUsedByStartTimeAndEndTimeAndParkingLotId(parkingLotId, startTime, endTime);
         List<CarSpace> allByParkingLotId = carSpaceRepository.findAllByParkingLotId(parkingLotId);
         HashSet<String> carPortSet = new HashSet<>(bookOrders.stream().map(BookOrder::getCarPort).collect(Collectors.toList()));
-        return allByParkingLotId.stream().filter(carSpace -> !carPortSet.contains(carPortSet)).collect(Collectors.toList());
+        return allByParkingLotId.stream().filter(carSpace -> !carPortSet.contains(carSpace.getCarPort())).collect(Collectors.toList());
     }
 
 }
