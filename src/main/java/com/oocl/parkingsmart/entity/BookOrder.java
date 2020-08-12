@@ -22,4 +22,6 @@ public class BookOrder {
     private Date reservationEndTime;
     private String status;
     private String carPort;
+    private Double totalPrice;
+    private String address;
 }
