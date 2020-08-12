@@ -33,4 +33,9 @@ public class RentOrderController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResultVo getOrderById(@PathVariable("id") Integer id){
+        return ResultVoUtils.success("success",rentOrderService.findById(id));
+    }
+
 }
