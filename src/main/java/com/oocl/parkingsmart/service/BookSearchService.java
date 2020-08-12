@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
+@Service(value = "BookSearchService")
 public class BookSearchService {
     @Autowired
     private ParkingLotRepositoty parkingLotRepositoty;
