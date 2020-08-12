@@ -30,7 +30,7 @@ class BookOrderServiceTest {
         calendar.set(2020, Calendar.DECEMBER, 1);
         order.setReservationStartTime(new Date());
         order.setReservationEndTime(calendar.getTime());
-        order.setStatus("Finish");
+        order.setStatus("finish");
         order.setId(1);
         when(bookOrderRepository.save(any())).thenReturn(order);
         bookOrderService = new BookOrderServiceImpl(bookOrderRepository);
@@ -45,7 +45,7 @@ class BookOrderServiceTest {
         calendar.set(2020, Calendar.DECEMBER, 1);
         order.setReservationStartTime(new Date());
         order.setReservationEndTime(calendar.getTime());
-        order.setStatus("Finish");
+        order.setStatus("finish");
         //when
         BookOrder bookOrder = bookOrderService.create(order);
         //then

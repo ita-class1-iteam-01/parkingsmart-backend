@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BookOrderRepository extends JpaRepository<BookOrder,Integer> {
-    @Query("select b from BookOrder b where b.parkingId =?1 and b.status != 'FINISHED' ")
+    @Query("select b from BookOrder b where b.parkingId =?1 and b.status != 'finished' ")
     List<BookOrder> findByStatusNotFINISHED(Integer id);
 }

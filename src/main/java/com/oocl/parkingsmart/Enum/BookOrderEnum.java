@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 
 @Getter
 public enum BookOrderEnum {
-    FINISHED("FINISHED"),
-    ONGOING("ONGOING"),
-    BOOKED("BOOKED")
+    FINISHED("finished"),
+    ONGOING("ongoing"),
+    BOOKED("booked")
     ;
     String value;
     BookOrderEnum(String value) {

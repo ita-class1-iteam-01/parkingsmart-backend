@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum  RentOrderEnum {
-    PROCESSING("PROCESSING"),
-    FINISHED("FINISHED"),
-    BOOKED("BOOKED"),
-    PUBLISHED("PUBLISHED")
+    PROCESSING("processing"),
+    FINISHED("finished"),
+    BOOKED("booked"),
+    PUBLISHED("published")
     ;
     String value;
     RentOrderEnum(String value) {
