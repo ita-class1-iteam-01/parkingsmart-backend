@@ -1,21 +1,13 @@
 package com.oocl.parkingsmart.integrationTest;
 
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.oocl.parkingsmart.entity.BookOrder;
 import com.oocl.parkingsmart.repository.BookOrderRepository;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 
 import javax.transaction.Transactional;
@@ -49,5 +41,19 @@ public class BookOrderControllerIntegrationTest {
                 .andExpect(jsonPath("$.msg").value("booking success"));
         List<BookOrder> all = repository.findAll();
         assertTrue(all.size()>0);
+    }
+
+    @Test
+    void should_add_book_order_and_update_rent_order_status_when_given_book_order_and_rent_order() throws Exception {
+        //given
+
+        //when
+        mockMvc.perform(post("/bookOrders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\":0,\"userId\":1,\"parkingId\":1,\"parkingType\":\"Lots\",\"reservationStartTime\":1597131056871,\"reservationEndTime\":1597131056871,\"status\":\"Finish\"}"))
+                //then
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.msg").value("booking success"));
     }
 }
