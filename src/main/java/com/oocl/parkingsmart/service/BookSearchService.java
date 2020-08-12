@@ -35,6 +35,7 @@ public class BookSearchService {
     }
 
     public void calculationMargin(PageRequest pageRequest, List<ParkingLot> nearbyParkingLots) throws ParseException {
+        if (nearbyParkingLots == null) return;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startTime = simpleDateFormat.parse(pageRequest.getStartTime());
         Date endTime = simpleDateFormat.parse(pageRequest.getEndTime());
@@ -42,7 +43,7 @@ public class BookSearchService {
             List<BookOrder> bookOrders = bookOrderRepository.findByStatusNotFINISHED(parkingLot.getId());
             Integer count = 0;
             for (BookOrder order : bookOrders) {
-                if(order.getReservationStartTime()==null)return;
+                if (order.getReservationStartTime() == null) return;
                 int compareToFirst = order.getReservationStartTime().compareTo(endTime);
                 int compareToSecond = order.getReservationEndTime().compareTo(startTime);
                 if (compareToFirst <= 0 && compareToSecond >= 0) {
@@ -52,13 +53,14 @@ public class BookSearchService {
             parkingLot.setSize(parkingLot.getSize() - count);
         }
     }
-    public List<BookOrder> getBookOrdersUsedByStartTimeAndEndTimeAndParkingLotId(Integer parkingLotId,Date startTime,Date endTime){
+
+    public List<BookOrder> getBookOrdersUsedByStartTimeAndEndTimeAndParkingLotId(Integer parkingLotId, Date startTime, Date endTime) {
         List<BookOrder> bookOrders = bookOrderRepository.findByStatusNotFINISHED(parkingLotId);
         List<BookOrder> result = new ArrayList<>();
         for (BookOrder order : bookOrders) {
             int compareToFirst = order.getReservationStartTime().compareTo(endTime);
             int compareToSecond = order.getReservationEndTime().compareTo(startTime);
-            if(compareToFirst <= 0 && compareToSecond >= 0){
+            if (compareToFirst <= 0 && compareToSecond >= 0) {
                 result.add(order);
             }
         }
