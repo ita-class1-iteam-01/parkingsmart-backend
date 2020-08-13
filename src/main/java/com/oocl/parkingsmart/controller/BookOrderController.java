@@ -12,6 +12,7 @@ import com.oocl.parkingsmart.service.ParkingLotService;
 import com.oocl.parkingsmart.utils.ResultVoUtils;
 import com.oocl.parkingsmart.vo.ResultVo;
 import com.oocl.parkingsmart.websocket.WebSocketServer;
+import com.oocl.parkingsmart.websocket.protocol.data.PagePersonalRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,10 @@ public class BookOrderController {
             resultVo.setCode(0);
             resultVo.setMsg("booking success");
             resultVo.setData(carSpace);
-            //todo
-            PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),form.getReservationStartTime().toString(),form.getReservationEndTime().toString());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String startTime = format.format(form.getReservationStartTime());
+            String endTime = format.format(form.getReservationEndTime());
+            PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
             webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
             return resultVo;
         }else {
@@ -86,10 +89,18 @@ public class BookOrderController {
 
     @PostMapping("/personal/{rentOrderId}")
     @ResponseStatus(HttpStatus.CREATED)
-    ResultVo addPersonalBookOrder(@RequestBody BookOrder bookOrder,@PathVariable("rentOrderId") Integer rentOrderId){
+    ResultVo addPersonalBookOrder(@RequestBody BookOrderForm form,@PathVariable("rentOrderId") Integer rentOrderId) throws IOException, ParseException {
+        BookOrder bookOrder = new BookOrder();
+        BeanUtils.copyProperties(form,bookOrder);
         BookOrder returnedOrder = bookOrderService.createPersonalOrder(bookOrder, rentOrderId);
         if(returnedOrder != null){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String startTime = format.format(form.getReservationStartTime());
+            String endTime = format.format(form.getReservationEndTime());
+            PagePersonalRequest pageRequest = new PagePersonalRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
+            webSocketServer.sendPersonList(form.getUserId(),pageRequest);
             return ResultVoUtils.success("success",null);
+
         }
         return ResultVoUtils.fail("book fail");
     }

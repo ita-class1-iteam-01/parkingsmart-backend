@@ -2,6 +2,7 @@ package com.oocl.parkingsmart.integration;
 
 import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.service.BookSearchPersonalCarPortService;
+import com.oocl.parkingsmart.websocket.protocol.data.PagePersonalRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class BookSearchPersonalCarPortIntegrationTest {
 
     @Test
     void should_return_right_size_when_hit_search_given_time_lon_lat() throws ParseException {
-        PageRequest request = new PageRequest("22.371738", "113.573064", "2020-08-12 00:00:00", "2020-10-12 00:00:00");
+        PagePersonalRequest request = new PagePersonalRequest("22.371738", "113.573064", "2020-08-12 00:00:00", "2020-10-12 00:00:00");
         List<RentOrder> nearbyCarPorts = bookSearchPersonalCarPortService.findNearbyCarPort(request);
 
         assertEquals(2,nearbyCarPorts.size());
