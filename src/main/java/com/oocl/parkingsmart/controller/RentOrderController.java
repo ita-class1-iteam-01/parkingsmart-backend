@@ -6,6 +6,9 @@ import com.oocl.parkingsmart.service.RentOrderService;
 import com.oocl.parkingsmart.utils.ResultVoUtils;
 import com.oocl.parkingsmart.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +23,8 @@ public class RentOrderController {
     RentOrderService rentOrderService;
 
     @GetMapping
-    public ResultVo getAll(){
-        return ResultVoUtils.success("success",rentOrderService.getAll());
+    public ResultVo getAll(@PageableDefault(sort = {"creationTime"},direction = Sort.Direction.DESC,size = 100) Pageable pageable){
+        return ResultVoUtils.success("success",rentOrderService.getAll(pageable));
     }
 
     @PostMapping

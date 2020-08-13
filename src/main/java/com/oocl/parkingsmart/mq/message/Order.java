@@ -5,8 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class OrderMessage implements Serializable {
+public class Order implements Serializable {
     public final static String QUEUE = "SECKILL_QUEUE";
-    Integer RentId;
+    Integer rentId;
     Integer userId;
 }

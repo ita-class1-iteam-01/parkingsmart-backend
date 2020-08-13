@@ -6,6 +6,7 @@ import com.oocl.parkingsmart.entity.CarSpace;
 import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.form.BookOrderForm;
 import com.oocl.parkingsmart.model.ParkingLot;
+import com.oocl.parkingsmart.mq.message.Order;
 import com.oocl.parkingsmart.service.BookOrderService;
 import com.oocl.parkingsmart.service.CarSpaceService;
 import com.oocl.parkingsmart.service.ParkingLotService;
@@ -69,7 +70,7 @@ public class BookOrderController {
             String startTime = format.format(form.getReservationStartTime());
             String endTime = format.format(form.getReservationEndTime());
             PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
-            webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
+//            webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
             return resultVo;
         }else {
             resultVo.setCode(1);
@@ -104,6 +105,11 @@ public class BookOrderController {
             return ResultVoUtils.success("success",null);
         }
         return ResultVoUtils.fail("book fail");
+    }
+
+    @GetMapping("/seckill/{rentId}")
+    ResultVo seckill(@PathVariable("rentId") Integer rentId){
+        return ResultVoUtils.success("success",bookOrderService.seckill(rentId));
     }
 
 }

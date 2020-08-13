@@ -19,6 +19,8 @@ spring:
       max-connections: 50
       expiry-timeout: 10000
       idle-timeout: 30000
+    packages:
+      trust-all: true
 server:
   port: 8090
 

@@ -7,6 +7,7 @@ import com.oocl.parkingsmart.service.impl.RentOrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 
 import java.util.*;
 
@@ -31,10 +32,11 @@ public class RentOrderServiceTest {
     void should_return_rent_orders_when_get_all_given() {
         //given
         List<RentOrder> returnedOrders = Arrays.asList(new RentOrder(), new RentOrder(), new RentOrder());
+        Pageable pageable = PageRequest.of(0,100,Sort.by(Sort.Direction.DESC,"creation_time"));
 
         //when
-        List<RentOrder> rentOrders = rentOrderService.getAll();
-        when(rentOrderRepository.findAll()).thenReturn(returnedOrders);
+        when(rentOrderRepository.findAll(pageable)).thenReturn((new PageImpl<>(returnedOrders)));
+        List<RentOrder> rentOrders = rentOrderService.getAll(pageable);
 
         //then
         assertNotNull(rentOrders);
