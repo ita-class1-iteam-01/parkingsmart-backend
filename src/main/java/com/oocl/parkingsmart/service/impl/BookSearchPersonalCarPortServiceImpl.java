@@ -4,7 +4,7 @@ import com.oocl.parkingsmart.Enum.RentOrderEnum;
 import com.oocl.parkingsmart.entity.RentOrder;
 import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.BookSearchPersonalCarPortService;
-import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
+import com.oocl.parkingsmart.websocket.protocol.data.PagePersonalRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -22,7 +22,7 @@ public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalC
     }
 
     @Override
-    public List<RentOrder> findNearbyCarPort(PageRequest request) throws ParseException {
+    public List<RentOrder> findNearbyCarPort(PagePersonalRequest request) throws ParseException {
         Double latitude = Double.parseDouble(request.getLatitude());
         Double longitude = Double.parseDouble(request.getLongitude());
         List<RentOrder> rentOrders = rentOrderRepository.findAllNearbyPersonalCarPort(longitude, latitude);
