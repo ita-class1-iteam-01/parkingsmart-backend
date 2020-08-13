@@ -87,13 +87,13 @@ public class WebSocketServer {
         List<RentOrder> nearbyCarPort = bookSearchPersonalCarPortService.findNearbyCarPort(pagePersonalRequest);
         nearbyCarPort = nearbyCarPort.stream().sorted((order1,order2)->{
             if(order1.getSeckilling() && !order2.getSeckilling()){
-                return 1;
-            }else if(!order1.getSeckilling() && !order2.getSeckilling()){
-                return order1.getCreationTime().compareTo(order1.getCreationTime());
-            } else if(!order1.getSeckilling() && order2.getSeckilling()){
                 return -1;
+            }else if(!order1.getSeckilling() && !order2.getSeckilling()){
+                return order1.getCreationTime().compareTo(order2.getCreationTime());
+            } else if(!order1.getSeckilling() && order2.getSeckilling()){
+                return 1;
             } else {
-                return order1.getCreationTime().compareTo(order1.getCreationTime());
+                return order1.getCreationTime().compareTo(order2.getCreationTime());
             }
         }).collect(Collectors.toList());
         PagePersonalResponse response = new PagePersonalResponse();
