@@ -30,7 +30,7 @@ public class RentOrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultVo createOrder(@RequestBody RentOrder rentOrder){
-        rentOrder.setStatus(RentOrderEnum.PUBLISHED.getValue());
+        rentOrder.setStatus(RentOrderEnum.INREVIEW.getValue());
         rentOrder.setCreationTime(new Date());
         if(rentOrderService.create(rentOrder)!=null){
             return ResultVoUtils.success("Renting success",null);

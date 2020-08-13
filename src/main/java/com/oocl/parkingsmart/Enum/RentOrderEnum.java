@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum  RentOrderEnum {
+    INREVIEW ("inreview"),
     PROCESSING("processing"),
     FINISHED("finished"),
     BOOKED("booked"),
