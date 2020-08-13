@@ -40,7 +40,7 @@ public class WebSocketServer {
     private static Gson gson = new GsonBuilder().create();
     private Session session;
     private BookSearchService bookSearchService = (BookSearchService) MyApplicationContextAware.getApplicationContext().getBean("BookSearchService");
-    private BookSearchPersonalCarPortService bookSearchPersonalCarPortService= (BookSearchPersonalCarPortService) MyApplicationContextAware.getApplicationContext().getBean("BookSearchPersonalCarPortService");
+    private final BookSearchPersonalCarPortService bookSearchPersonalCarPortService= (BookSearchPersonalCarPortService) MyApplicationContextAware.getApplicationContext().getBean("BookSearchPersonalCarPortService");
     private static AtomicInteger onlineCount = new AtomicInteger(0);
     private static ConcurrentHashMap<Integer, WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
     private Integer userId;

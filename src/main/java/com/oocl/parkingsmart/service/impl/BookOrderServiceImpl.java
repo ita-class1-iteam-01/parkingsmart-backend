@@ -2,6 +2,7 @@ package com.oocl.parkingsmart.service.impl;
 
 import com.oocl.parkingsmart.entity.BookOrder;
 import com.oocl.parkingsmart.entity.RentOrder;
+import com.oocl.parkingsmart.mq.message.Order;
 import com.oocl.parkingsmart.repository.BookOrderRepository;
 import com.oocl.parkingsmart.repository.RentOrderRepository;
 import com.oocl.parkingsmart.service.BookOrderService;
@@ -32,6 +33,11 @@ public class BookOrderServiceImpl implements BookOrderService {
     @Override
     public List<BookOrder> getAll() {
         return bookOrderRepository.findAll();
+    }
+
+    @Override
+    public BookOrder seckill(Integer rentId) {
+        return bookOrderRepository.findByParkingIdAndParkingType(rentId, "personal");
     }
 
     @Override
