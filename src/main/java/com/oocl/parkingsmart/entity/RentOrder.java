@@ -24,6 +24,9 @@ public class RentOrder {
     private Date rentStartDate;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date rentEndDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date creationTime;
+    private Boolean seckilling;
     private Double price;
     private String status;
     private String contactPerson;

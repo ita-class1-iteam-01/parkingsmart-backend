@@ -13,8 +13,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class RentOrderServiceTest {
 
@@ -85,5 +84,25 @@ public class RentOrderServiceTest {
         //then
         assertNotNull(returnedOrder);
         assertEquals(order.getId(),returnedOrder.getId());
+    }
+
+    @Test
+    void should_update_rent_order_when_update_given_rent_order() {
+        //given
+        RentOrder order = new RentOrder();
+        order.setId(4);
+        order.setAddress("广东省珠海市唐家湾惠景畅园");
+        order.setLatitude(1.1);
+        order.setLongitude(2.1);
+        order.setContactNumber("13531915996");
+        order.setContactPerson("henry");
+        order.setPersonCarport("CW-001");
+        order.setPrice(200.00);
+        //when
+        when(rentOrderRepository.save(any())).thenReturn(order);
+        //then
+        RentOrder rentOrder = rentOrderService.updateRentOrder(order);
+        assertNotNull(rentOrder);
+        verify(rentOrderRepository,times(1)).save(any());
     }
 }

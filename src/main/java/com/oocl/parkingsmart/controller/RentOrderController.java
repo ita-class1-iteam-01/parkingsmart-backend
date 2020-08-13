@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/rentOrders")
 @CrossOrigin
@@ -26,6 +28,7 @@ public class RentOrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultVo createOrder(@RequestBody RentOrder rentOrder){
         rentOrder.setStatus(RentOrderEnum.PUBLISHED.getValue());
+        rentOrder.setCreationTime(new Date());
         if(rentOrderService.create(rentOrder)!=null){
             return ResultVoUtils.success("Renting success",null);
         }else {
