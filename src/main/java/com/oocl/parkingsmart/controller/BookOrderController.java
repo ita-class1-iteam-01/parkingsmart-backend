@@ -62,8 +62,10 @@ public class BookOrderController {
             resultVo.setCode(0);
             resultVo.setMsg("booking success");
             resultVo.setData(carSpace);
-            //todo
-            PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),form.getReservationStartTime().toString(),form.getReservationEndTime().toString());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String startTime = format.format(form.getReservationStartTime());
+            String endTime = format.format(form.getReservationEndTime());
+            PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
             webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
             return resultVo;
         }else {

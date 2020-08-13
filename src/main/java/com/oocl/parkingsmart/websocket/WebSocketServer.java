@@ -12,9 +12,12 @@ import com.oocl.parkingsmart.websocket.protocol.data.PageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.text.ParseException;
@@ -22,20 +25,24 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.oocl.parkingsmart.websocket.protocol.command.Command.PAGE_REQUEST;
 import static com.oocl.parkingsmart.websocket.protocol.command.Command.PAGE_RESPONSE;
 
 @Component
 @Slf4j
-@ServerEndpoint("/parkingws")
+@ServerEndpoint("/parkingws/{userId}")
 public class WebSocketServer {
 
     private final Map<Integer, Class<? extends Data>> packetTypeMap;
     private static Gson gson = new GsonBuilder().create();
     private Session session;
     private  BookSearchService bookSearchService = (BookSearchService)MyApplicationContextAware.getApplicationContext().getBean("BookSearchService");
-
+    private static AtomicInteger onlineCount = new AtomicInteger(0);
+    private static ConcurrentHashMap<Integer, WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    private Integer userId;
 
     public WebSocketServer() {
         packetTypeMap = new HashMap<>();
@@ -43,8 +50,19 @@ public class WebSocketServer {
         packetTypeMap.put(PAGE_RESPONSE, PageResponse.class);
     }
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session,@PathParam("userId") Integer userId){
         this.session = session;
+        this.userId = userId;
+
+        if (webSocketMap.containsKey(userId)) {
+            webSocketMap.remove(userId);
+            webSocketMap.put(userId, this);
+            log.info("[WebSocketServer] open a webSocket, userId = {}", userId);
+        } else {
+            webSocketMap.put(userId, this);
+            log.info("[WebSocketServer] open a webSocket, userId = {}", userId);
+            onlineCount.incrementAndGet();
+        }
         log.info("新连接加入");
     }
 
@@ -73,5 +91,27 @@ public class WebSocketServer {
 
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
+    }
+
+    /**
+     * for another service to call
+     * @param userId
+     * @param pageRequest
+     * @throws ParseException
+     * @throws IOException
+     */
+    public void sendList(Integer userId,PageRequest pageRequest) throws ParseException, IOException {
+        WebSocketServer webSocketServer = webSocketMap.get(userId);
+        Packet packet = handlerPageRequest(pageRequest);
+        webSocketServer.sendMessage(gson.toJson(packet));
+    }
+
+
+    @OnClose
+    public void onClose() {
+        if (webSocketMap.containsKey(userId)) {
+            webSocketMap.remove(userId);
+            onlineCount.decrementAndGet();
+        }
     }
 }
