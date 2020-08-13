@@ -41,8 +41,6 @@ public class WebSocketServer {
     private Session session;
     private BookSearchService bookSearchService = (BookSearchService) MyApplicationContextAware.getApplicationContext().getBean("BookSearchService");
     private BookSearchPersonalCarPortService bookSearchPersonalCarPortService= (BookSearchPersonalCarPortService) MyApplicationContextAware.getApplicationContext().getBean("BookSearchPersonalCarPortService");
-
-    private  BookSearchService bookSearchService = (BookSearchService)MyApplicationContextAware.getApplicationContext().getBean("BookSearchService");
     private static AtomicInteger onlineCount = new AtomicInteger(0);
     private static ConcurrentHashMap<Integer, WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
     private Integer userId;
@@ -81,8 +79,7 @@ public class WebSocketServer {
         Packet backPacket = null;
         if (data instanceof PageRequest) {
             backPacket = handlerPageRequest((PageRequest) data);
-        }
-        if (data instanceof PagePersonalRequest) {
+        }else if(data instanceof PagePersonalRequest) {
             backPacket = handlerPagePersonalRequest((PagePersonalRequest) data);
         }
         this.sendMessage(gson.toJson(backPacket));
@@ -90,7 +87,12 @@ public class WebSocketServer {
 
     private Packet handlerPagePersonalRequest(PagePersonalRequest pagePersonalRequest) throws ParseException {
         List<RentOrder> nearbyCarPort = bookSearchPersonalCarPortService.findNearbyCarPort(pagePersonalRequest);
-        return null;
+        PagePersonalResponse response = new PagePersonalResponse();
+        response.setPagePersonal(nearbyCarPort);
+        Packet packet = new Packet();
+        packet.setData(gson.toJson(response));
+        packet.setCommand(PAGE_PERSONAL_RESPONSE);
+        return packet;
     }
 
     private Packet handlerPageRequest(PageRequest pageRequest) throws ParseException {
@@ -108,16 +110,15 @@ public class WebSocketServer {
         this.session.getBasicRemote().sendText(message);
     }
 
-    /**
-     * for another service to call
-     * @param userId
-     * @param pageRequest
-     * @throws ParseException
-     * @throws IOException
-     */
     public void sendList(Integer userId,PageRequest pageRequest) throws ParseException, IOException {
         WebSocketServer webSocketServer = webSocketMap.get(userId);
         Packet packet = handlerPageRequest(pageRequest);
+        webSocketServer.sendMessage(gson.toJson(packet));
+    }
+
+    public void sendPersonList(Integer userId,PagePersonalRequest pageRequest) throws ParseException, IOException {
+        WebSocketServer webSocketServer = webSocketMap.get(userId);
+        Packet packet = handlerPagePersonalRequest(pageRequest);
         webSocketServer.sendMessage(gson.toJson(packet));
     }
 
