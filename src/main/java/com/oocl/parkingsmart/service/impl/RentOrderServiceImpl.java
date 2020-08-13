@@ -36,4 +36,9 @@ public class RentOrderServiceImpl implements RentOrderService {
     public RentOrder findById(Integer id) {
         return rentOrderRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public RentOrder updateRentOrder(RentOrder rentOrder) {
+        return rentOrderRepository.save(rentOrder);
+    }
 }

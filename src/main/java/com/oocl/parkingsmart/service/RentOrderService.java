@@ -13,4 +13,6 @@ public interface RentOrderService{
     RentOrder create(RentOrder rentOrder);
 
     RentOrder findById(Integer id);
+
+    RentOrder updateRentOrder(RentOrder rentOrder);
 }

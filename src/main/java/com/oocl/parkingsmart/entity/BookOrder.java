@@ -1,5 +1,6 @@
 package com.oocl.parkingsmart.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.annotation.Generated;
@@ -18,7 +19,9 @@ public class BookOrder {
     private Integer userId;
     private Integer parkingId;
     private String parkingType;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date reservationStartTime;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date reservationEndTime;
     private String status;
     private String carPort;

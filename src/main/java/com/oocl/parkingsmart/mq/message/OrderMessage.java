@@ -6,9 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class OrderMessage implements Serializable {
-    public final static String QUEUE = "ORDER_QUEUE";
-    String userId;
-    String parkingLotId;
-    String startTime;
-    String endTime;
+    public final static String QUEUE = "SECKILL_QUEUE";
+    Integer RentId;
+    Integer userId;
 }
