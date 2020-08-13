@@ -6,6 +6,9 @@ import com.oocl.parkingsmart.service.RentOrderService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +23,8 @@ public class RentOrderServiceImpl implements RentOrderService {
     private RentOrderRepository rentOrderRepository;
 
     @Override
-    public List<RentOrder> getAll() {
-        return rentOrderRepository.findAll();
+    public List<RentOrder> getAll(Pageable pageable) {
+        return rentOrderRepository.findAll(pageable).getContent();
     }
 
     @Override
