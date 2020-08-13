@@ -36,6 +36,6 @@ public class RentOrderServiceImpl implements RentOrderService {
 
     @Override
     public RentOrder updateRentOrder(RentOrder rentOrder) {
-        return null;
+        return rentOrderRepository.save(rentOrder);
     }
 }
