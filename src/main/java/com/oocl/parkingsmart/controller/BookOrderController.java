@@ -70,7 +70,7 @@ public class BookOrderController {
             String startTime = format.format(form.getReservationStartTime());
             String endTime = format.format(form.getReservationEndTime());
             PageRequest pageRequest = new PageRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
-//            webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
+            webSocketServer.sendList(bookOrder.getUserId(),pageRequest);
             return resultVo;
         }else {
             resultVo.setCode(1);
