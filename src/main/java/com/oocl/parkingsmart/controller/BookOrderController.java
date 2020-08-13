@@ -14,6 +14,7 @@ import com.oocl.parkingsmart.vo.ResultVo;
 import com.oocl.parkingsmart.websocket.WebSocketServer;
 import com.oocl.parkingsmart.websocket.protocol.data.PagePersonalRequest;
 import com.oocl.parkingsmart.websocket.protocol.data.PageRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookOrders")
 @CrossOrigin
+@Slf4j
 public class BookOrderController {
     @Autowired
     BookOrderService bookOrderService;
@@ -100,7 +102,6 @@ public class BookOrderController {
             PagePersonalRequest pageRequest = new PagePersonalRequest(form.getLatitude(),form.getLongitude(),startTime,endTime);
             webSocketServer.sendPersonList(form.getUserId(),pageRequest);
             return ResultVoUtils.success("success",null);
-
         }
         return ResultVoUtils.fail("book fail");
     }

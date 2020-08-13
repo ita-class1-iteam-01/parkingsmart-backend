@@ -26,7 +26,7 @@ public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalC
         Double latitude = Double.parseDouble(request.getLatitude());
         Double longitude = Double.parseDouble(request.getLongitude());
         List<RentOrder> rentOrders = rentOrderRepository.findAllNearbyPersonalCarPort(longitude, latitude);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startTime = simpleDateFormat.parse(request.getStartTime());
         Date endTime = simpleDateFormat.parse(request.getEndTime());
         return rentOrders.stream().filter(rentOrder ->

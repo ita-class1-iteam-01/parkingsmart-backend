@@ -22,12 +22,10 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static com.oocl.parkingsmart.websocket.protocol.command.Command.*;
 
@@ -87,6 +85,17 @@ public class WebSocketServer {
 
     private Packet handlerPagePersonalRequest(PagePersonalRequest pagePersonalRequest) throws ParseException {
         List<RentOrder> nearbyCarPort = bookSearchPersonalCarPortService.findNearbyCarPort(pagePersonalRequest);
+        nearbyCarPort = nearbyCarPort.stream().sorted((order1,order2)->{
+            if(order1.getSeckilling() && !order2.getSeckilling()){
+                return 1;
+            }else if(!order1.getSeckilling() && !order2.getSeckilling()){
+                return order1.getCreationTime().compareTo(order1.getCreationTime());
+            } else if(!order1.getSeckilling() && order2.getSeckilling()){
+                return -1;
+            } else {
+                return order1.getCreationTime().compareTo(order1.getCreationTime());
+            }
+        }).collect(Collectors.toList());
         PagePersonalResponse response = new PagePersonalResponse();
         response.setPagePersonal(nearbyCarPort);
         Packet packet = new Packet();

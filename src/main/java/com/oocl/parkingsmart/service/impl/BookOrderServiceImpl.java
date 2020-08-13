@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookOrderServiceImpl implements BookOrderService {
@@ -31,7 +33,10 @@ public class BookOrderServiceImpl implements BookOrderService {
 
     @Override
     public List<BookOrder> getAll() {
-        return bookOrderRepository.findAll();
+        return bookOrderRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparingInt(BookOrder::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
