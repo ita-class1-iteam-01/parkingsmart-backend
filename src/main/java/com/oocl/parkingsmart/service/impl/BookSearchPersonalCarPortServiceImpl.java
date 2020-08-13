@@ -29,11 +29,10 @@ public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalC
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         Date startTime = simpleDateFormat.parse(request.getStartTime());
         Date endTime = simpleDateFormat.parse(request.getEndTime());
-        List<RentOrder> collect = rentOrders.stream().filter(rentOrder ->
+        return rentOrders.stream().filter(rentOrder ->
                 rentOrder.getStatus().equals(RentOrderEnum.PUBLISHED.getValue())
-                && startTime.after(rentOrder.getRentStartDate())
-                && endTime.before(rentOrder.getRentEndDate())
+                && startTime.getTime()>=rentOrder.getRentStartDate().getTime()
+                && endTime.getTime()<=rentOrder.getRentEndDate().getTime()
         ).collect(Collectors.toList());
-        return collect;
     }
 }
