@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service(value = "BookSearchPersonalCarPortService")
 public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalCarPortService {
     private final RentOrderRepository rentOrderRepository;
 
