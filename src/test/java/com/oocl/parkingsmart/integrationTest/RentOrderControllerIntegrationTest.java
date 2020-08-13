@@ -75,7 +75,7 @@ public class RentOrderControllerIntegrationTest {
     @Test
     void should_return_rent_order_when_get_one_given_id() throws Exception {
         //given
-        Integer id = 4;
+        Integer id = 6;
         //when
         //then
         mockMvc.perform(get("/rentOrders/"+id))
