@@ -27,10 +27,12 @@ public class BookSearchPersonalCarPortServiceImpl implements BookSearchPersonalC
         Double longitude = Double.parseDouble(request.getLongitude());
         List<RentOrder> rentOrders = rentOrderRepository.findAllNearbyPersonalCarPort(longitude, latitude);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        Date startTime = simpleDateFormat.parse(request.getStartTime());
         Date endTime = simpleDateFormat.parse(request.getEndTime());
         List<RentOrder> collect = rentOrders.stream().filter(rentOrder ->
                 rentOrder.getStatus().equals(RentOrderEnum.PUBLISHED.getValue())
-                && endTime.getTime()-rentOrder.getRentStartDate().getTime()>=2592000000d-86400000d-29600000d
+                && startTime.after(rentOrder.getRentStartDate())
+                && endTime.before(rentOrder.getRentEndDate())
         ).collect(Collectors.toList());
         return collect;
     }

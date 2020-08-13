@@ -21,6 +21,7 @@ public class BookSearchPersonalCarPortIntegrationTest {
     void should_return_right_size_when_hit_search_given_time_lon_lat() throws ParseException {
         PageRequest request = new PageRequest("22.371738", "113.573064", "2020-08-12 00:00:00", "2020-10-12 00:00:00");
         List<RentOrder> nearbyCarPorts = bookSearchPersonalCarPortService.findNearbyCarPort(request);
-        assertEquals(6,nearbyCarPorts.size());
+
+        assertEquals(2,nearbyCarPorts.size());
     }
 }

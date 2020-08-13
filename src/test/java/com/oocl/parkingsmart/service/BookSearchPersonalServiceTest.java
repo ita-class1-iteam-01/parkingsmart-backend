@@ -22,9 +22,9 @@ public class BookSearchPersonalServiceTest {
         RentOrderRepository mockRentOrderRepository = mock(RentOrderRepository.class);
         //when
         BookSearchPersonalCarPortService bookSearchPersonalCarPortService = new BookSearchPersonalCarPortServiceImpl(mockRentOrderRepository);
-        PageRequest request = new PageRequest("113.574524", "22.373737", "2020-05-14 00:00:00", "2020-08-14 00:00:00");
+        PageRequest request = new PageRequest("113.574524", "22.373737", "2020-05-14 00:00:00", "2020-06-14 00:00:00");
         Calendar calendar1 = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-        calendar1.set(2020, Calendar.JULY, 16,0,0,0);
+        calendar1.set(2020, Calendar.JANUARY, 16,0,0,0);
         Calendar calendar2 = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         calendar2.set(2020, Calendar.AUGUST, 14,0,0,0);
         RentOrder rentOrder = new RentOrder(1, "CW-110", 1, calendar1.getTime(), calendar2.getTime(), 10d,
